@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ nama_aplikasi }}</title>
+    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-text">
+            <small>DIBUAT OLEH: {{ nama }} | NPM: {{ npm }}</small>
+            <h1>Welcome to {{ nama_aplikasi}}</h1>
+            <p>Temukan perlengkapan olahraga terbaik khusus untuk <br> penggemar Barcelona! #VivaBarca</p>
+            <a href="#produk" class="btn">Belanja Sekarang</a>
+        </div>
+    </div>
+
+    <div class="categories">
+        <span>Sepatu</span>
+        <span>Pakaian</span>
+        <span>Bola</span>
+        <span>Aksesoris</span>
+    </div>
+</body>
+</html>
