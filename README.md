@@ -1,8 +1,8 @@
 # Tugas 2: Implementasi Model-View-Template (MVT) pada Django
-Nama: Muhammad Rifqi Ilham
-NPM: 2406495483
-Kelas: 2406495483
-Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-2
+Nama: Muhammad Rifqi Ilham  
+NPM: 2406495483  
+Kelas: PBP-E  
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-2  
 Link Deployment: https://muhammad-rifqi411-footballnews.pbp.cs.ui.ac.id/
 
 ## 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
