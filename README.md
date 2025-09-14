@@ -2,7 +2,7 @@
 Nama: Muhammad Rifqi Ilham  
 NPM: 2406495483  
 Kelas: PBP-E  
-Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-2  
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-3 
 Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
 
 ## 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
@@ -31,17 +31,18 @@ Secara garis besar, berikut langkah-langkah yang saya lakukan dalam mengerjakan 
 tidak ada
 
 ## 7. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
-![hasil postman xml]
-(assets/xml.png)
-![hasil postman json]
-(assets/json.png)
-![hasil postman xml by id]
-(assets/xml_id.png)
-![hasil postman json by id]
-(assets/json_id.png)
+![hasil postman xml](assets/xml.png)
+![hasil postman json](assets/json.png)
+![hasil postman xml by id](assets/xml_id.png)
+![hasil postman json by id](assets/json_id.png)
 
 
 # Tugas 2: Implementasi Model-View-Template (MVT) pada Django
+Nama: Muhammad Rifqi Ilham  
+NPM: 2406495483  
+Kelas: PBP-E  
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-2  
+
 
 ## 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 Selain mengikuti tutorial, saya juga bereksperimen dalam membuat website agar terlihat lebih kreatif dengan menggunakan CSS. Walaupun, saya menemukan masalah bahwa PWS gagal menemukan CSS saya, padahal pada server local Django CSS berhasil ditemukan. Saya mencoba menggunakan collectstatic, tapi masih belum mengatasi masalah. Namun, Secara garis besar, saya berhasil mengerjakan yang diminta tutorial dengan langkah berikut:
