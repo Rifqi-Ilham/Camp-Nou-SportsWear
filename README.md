@@ -1,9 +1,47 @@
-# Tugas 2: Implementasi Model-View-Template (MVT) pada Django
+# Tugas 3: Implementasi Form dan Data Delivery pada Django
 Nama: Muhammad Rifqi Ilham  
 NPM: 2406495483  
 Kelas: PBP-E  
 Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-2  
-Link Deployment: https://muhammad-rifqi411-footballnews.pbp.cs.ui.ac.id/
+Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
+
+## 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Kita memerlukan data delivery agar bisa ada komunikasi data antara client dengan server, sehingga platform nantinya bisa menampilkan data secara real-time, juga menerima input user agar platform bisa interaktif.
+
+## 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Menurut saya, JSON lebih baik dibandingkan XML, karena saya merasa JSON lebih mudah dibaca oleh manusia dan lebih ringkas dibandingkan XML, JSON juga lebih mudah untuk diolah di banyak bahasa pemrograman, hal-hal inilah yang menyebabkan JSON lebih populer dibandingkan XML.
+
+## 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+method is_valid pada form django berfungsi sebagai validasi data yang dimasukan user saat input ke form (misal tipe datanya, constrains, etc), tanpa hal tersebut, ada risiko bahwa data yang disimpan user tidak sesuai dengan database, sehingga bisa merusak program.
+
+## 4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+CSRF Token (Cross-Site Request Forgery) adalah token unik yang dibutuhkan sebagai proteks dari hacker yang mengirim request palsu yang pura-pura bertindak sebagai user, sehingga bisa saja hal ini dimanfaatkan untuk melakukan hal berbahaya yang tidak dinginkan user, misal mengubah data user tanpa sepengetahuan mereka. Dengan adanya CSRF, server dapat memverifikasi bahwa request yang datang benar-benar dari form user, sehingga hal ini bisa dicegah.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+Secara garis besar, berikut langkah-langkah yang saya lakukan dalam mengerjakan tugas ini:
+1. Menambahkan forms.py untuk memasukan model product
+2. Membuat fungsi untuk proses delivery data seperti create product, show product dan juga show melalui XML, JSON, XML by ID dan JSON by ID
+3. Melakukan routing di urls.py untuk fungsi-fungsi baru yang dibuat di views.pyh
+4. Membuat templates baru untuk halaman utama (main.html) membuat product (create_product.html) dan melihat detail product (product_detal.html), serta  
+5. testing terlebih dahulu di server local, apakah form sudah berhasil, dan apakah data bisa dilihat melalui XML, JSON, XML by ID dan JSON by ID
+6. mencoba untuk mengakses data melalui postman
+7. push ke github
+
+## 6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+tidak ada
+
+## 7. Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+![hasil postman xml]
+(assets/xml.png)
+![hasil postman json]
+(assets/json.png)
+![hasil postman xml by id]
+(assets/xml_id.png)
+![hasil postman json by id]
+(assets/json_id.png)
+
+
+# Tugas 2: Implementasi Model-View-Template (MVT) pada Django
 
 ## 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 Selain mengikuti tutorial, saya juga bereksperimen dalam membuat website agar terlihat lebih kreatif dengan menggunakan CSS. Walaupun, saya menemukan masalah bahwa PWS gagal menemukan CSS saya, padahal pada server local Django CSS berhasil ditemukan. Saya mencoba menggunakan collectstatic, tapi masih belum mengatasi masalah. Namun, Secara garis besar, saya berhasil mengerjakan yang diminta tutorial dengan langkah berikut:
