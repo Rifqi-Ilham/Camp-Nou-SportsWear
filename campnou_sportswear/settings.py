@@ -55,6 +55,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id',
+]
+
 ROOT_URLCONF = 'campnou_sportswear.urls'
 
 TEMPLATES = [
