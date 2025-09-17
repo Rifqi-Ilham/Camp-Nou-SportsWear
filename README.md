@@ -25,7 +25,8 @@ Secara garis besar, berikut langkah-langkah yang saya lakukan dalam mengerjakan 
 4. Membuat templates baru untuk halaman utama (main.html) membuat product (create_product.html) dan melihat detail product (product_detal.html), serta  
 5. testing terlebih dahulu di server local, apakah form sudah berhasil, dan apakah data bisa dilihat melalui XML, JSON, XML by ID dan JSON by ID
 6. mencoba untuk mengakses data melalui postman
-7. push ke github
+7. menambahkan domain di PWS sebagai CSRF trusted domain
+8. push ke github dan PWS
 
 ## 6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
 tidak ada
