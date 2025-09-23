@@ -1,10 +1,66 @@
+
+Nama: Muhammad Rifqi Ilham  
+NPM: 2406495483  
+Kelas: PBP-E  
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-4
+Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
+
+# Tugas 4: Implementasi Autentikasi, Session, dan Cookies pada Django
+## 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
+Django AuthenticationForm merupakan fitur yang telah disediakan oleh django untuk form login pengguna, sehingga developer tidak perlu membuat login form dari nol. 
+Kelebihan dari Django AuthenticationForm:
+1. tidak perlu menulis validasi email dan password manual.
+2. Otomatis handling validasi pengguna yang aktif.
+3. Relatif simple & Bisa langsung dipakai.
+
+Kekurangan dari Django AuthenticationForm:
+1. Kurang fleksibel, misal jika developer ingin menambahkan field baru
+2. Penampilannnya masih default, sehingga perlu dibuat tampilan HTML/CSS agar lebih selaras dengan website yang dibuat.
+
+## 2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+Autentikasi merupakan proses verifikasi data pengguna, sedangkan otorisasi menentukan hak akses yang dapat dilakukan oleh pengguna setelah login. Pada django, developer diberikan model bawaaan user, AuthenticationForm, serta fungsi login() dan juga logout() untuk proses autentikasi. Sedangkan untuk otorisasi, developer  dapat menggunakan decorator seperti @login_requiered sebelum fungsi di views untuk membatasi akses halaman sehingga hanya bisa diakses untuk yang sudah login.
+
+## 3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+Kelebihan Session:
+1. Data tersimpan di server sehingga lebih aman.
+2. bisa menampung data besar.
+
+Kekurangan Session:
+1. Membutuhkan penyimpanan server
+2. Membutuhkan mekanisme garbage collection untuk session lama
+
+Kelebihan Cookies:
+1. Bisa diakses di client-side
+2. Tidak butuh storage server, karena lebih ringan.
+
+Kekurangan Cookies:
+1. Ukuran terbatas (~4KB)
+2. Adanya risiko keamanan yang harus diperhatikan (XSS, CSRF)
+
+## 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+Penggunaan cookies relatif aman dalam pengembangan web, walaupun memiliki beberapa risiko keamanan yang harus diperhatikan. Misal, adanya cookies memungkinkan serangan dimana session cookie bisa dicuri lewat jaringan, namun Django telah menangani hal ini dengan mencegah javascript membaca cookie melalui pengaktifan HTTPOnly untuk session cookie. Selain itu, bisa juga ada serangan dimana hacker memanfaatkan CSRF yang ada di session cookies untuk melakukan hal yang tidak diinginkan user, namun Django juga telah mengatasi ini dengan penerapan CSRF token sehingga apabila token terjadi mismatch, request akan ditolak. Jadi, Penggunaan cookies secara default dalam pengembanan web relatif aman karena beberapa hal sudah di handle oleh Django, namun pada tahap produksi akan lebih baik jika developer menerapkan keamanan tambahan, misal seperti HTTPS.
+
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+Secara garis besar, berikut langkah saya dalam mengimplementasikan checklist tugas:
+1. membuat fungsi form register di views.py, dan menambahkan templates register.html
+2. membuat fungsi form login di views.py, dan juga menambahkan templates login.html
+3. membuat fungsi logout di views.py, dan menambahkan button logout di main.html
+5. melakukan routing untuk register, login dan logout di urls.py level aplikasi
+6. menerapkan otorisasi dengan menambahkan @login_required pada fungsi show_main dan show_product di views.py
+7. modifikasi fungsi login user dan menerapkan cookies di views.py
+8. modifikasi model Product dengan menambahkan attribute bawaan django yaitu User, lalu melakukan migrate
+9. memodifikasi create_product dan show_main di views.py untuk menambahkan validasi dan filtering, tombol filtering juga ditambahkan di main.html
+10. Menampilkan nama author di news detail melalui attribute user yang tadi sudah ditambahkan
+11. testing membuat produk di akun berbeda saat di local
+12. Push ke github dan pws
+
+
 # Tugas 3: Implementasi Form dan Data Delivery pada Django
 Nama: Muhammad Rifqi Ilham  
 NPM: 2406495483  
 Kelas: PBP-E  
 Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-3 
-Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
-
 ## 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
 Kita memerlukan data delivery agar bisa ada komunikasi data antara client dengan server, sehingga platform nantinya bisa menampilkan data secara real-time, juga menerima input user agar platform bisa interaktif.
 
