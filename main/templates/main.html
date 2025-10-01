@@ -1,75 +1,82 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ nama_aplikasi }}</title>
-    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
-</head>
-<body>
-    <div class="hero">
-        <div class="hero-text">
-            <small>DIBUAT OLEH: {{ nama }} | NPM: {{ npm }}</small>
-            <h1>Welcome to {{ nama_aplikasi }}</h1>
-            <p>Temukan perlengkapan olahraga terbaik khusus untuk <br>penggemar Barcelona! #VivaBarca</p>
-            <a href="#produk" class="btn">Belanja Sekarang</a>
+
+{% block meta %}
+<title>{{ nama_aplikasi }}</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<!-- Hero Section -->
+<div class="relative w-full h-screen flex items-center justify-center text-center text-white">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{% static "image/stadium.jpg" %}');"></div>
+  <div class="absolute inset-0 bg-black opacity-60"></div>
+  <div class="relative z-10 px-6">
+    <small class="block mb-2">DIBUAT OLEH: {{ nama }} | NPM: {{ npm }}</small>
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+      Welcome to {{ nama_aplikasi }}
+    </h1>
+    <p class="text-lg md:text-xl mb-6">
+      Temukan perlengkapan olahraga terbaik khusus untuk<br> penggemar Barcelona! <span class="font-semibold text-[#FDB913]">#VivaBarca</span>
+    </p>
+    <a href="#produk" class="inline-block bg-[#A50044] hover:bg-[#004D98] text-white px-6 py-3 rounded-lg font-semibold transition">
+      Belanja Sekarang
+    </a>
+  </div>
+</div>
+
+<div class="bg-gray-50 w-full min-h-screen pt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Filter Section -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border-2 border-[#FDB913] p-4 shadow-sm">
+      <!-- Tombol Filter -->
+      <div class="flex space-x-3 mb-4 sm:mb-0">
+        <a href="?" 
+           class="{% if request.GET.filter == 'all' or not request.GET.filter %} bg-[#A50044] text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} 
+                  px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white">
+          All Product
+        </a>
+        <a href="?filter=my" 
+           class="{% if request.GET.filter == 'my' %} bg-[#A50044] text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} 
+                  px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white">
+          My Product
+        </a>
+      </div>
+
+      <!-- Last Login Info -->
+      {% if user.is_authenticated %}
+        <div class="text-sm text-gray-600">
+          <span class="font-medium text-[#004D98]">Last login:</span> {{ last_login }}
         </div>
+      {% endif %}
     </div>
 
-    <div class="categories">
-        <span>Sepatu</span>
-        <span>Pakaian</span>
-        <span>Bola</span>
-        <span>Aksesoris</span>
-    </div>
-    <a href="{% url 'main:create_product' %}">
-    <button>+ Add Product</button>
-    </a>
-
-    <a href="{% url 'main:logout' %}">
-    <button>Logout</button>
-    </a>
-
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
-
-    <a href="?filter=all">
-        <button type="button">All Product</button>
-    </a>
-    <a href="?filter=my">
-        <button type="button">My Product</button>
-    </a> 
-
-    <hr>
+    <!-- Product Grid -->
     {% if not product_list %}
-        <p>Belum ada produk di {{ nama_aplikasi }}.</p>
-    {% else %}
-    
-    {% for product in product_list %}
-        <div>
-            <h2>
-                <a href="{% url 'main:show_product' product.id %}">
-                    {{ product.name }}
-                </a>
-            </h2>
-
-            <p><b>{{ product.get_category_display }}</b>
-            {% if product.is_featured %} | <b>Featured</b>{% endif %}</p>
-
-            {% if product.thumbnail %}
-                <img src="{{ product.thumbnail }}" alt="thumbnail" width="150" height="100">
-                <br />
-            {% endif %}
-
-            <p>{{ product.description|truncatewords:25 }}...</p>
-
-            <p><a href="{% url 'main:show_product' product.id %}">
-                <button>Detail</button>
-            </a></p>
+      <div class="bg-gray-900 rounded-lg border-2 border-[#FDB913] p-12 text-center text-white">
+        <div class="w-32 h-32 mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full object-contain">
+            <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>
+            <path d="M12 15h.01"/>
+            <path d="M12 7v4"/>
+          </svg>
         </div>
-
-        <hr>
+        <h3 class="text-lg font-medium mb-2">No product found</h3>
+        <p class="text-gray-300 mb-6">Be the first to add a product to {{ nama_aplikasi }}.</p>
+        <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-[#FDB913] text-black rounded-md hover:bg-[#A50044] hover:text-white transition">
+          + Add Product
+        </a>
+      </div>
+    {% else %}
+      <div id="produk" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for product in product_list %}
+          {% include 'card_product.html' with product=product %}
         {% endfor %}
+      </div>
     {% endif %}
+  </div>
+</div>
 
-</body>
-</html>
+{% endblock content %}

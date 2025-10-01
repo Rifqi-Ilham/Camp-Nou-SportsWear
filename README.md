@@ -2,9 +2,63 @@
 Nama: Muhammad Rifqi Ilham  
 NPM: 2406495483  
 Kelas: PBP-E  
-Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-4
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-5
 Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
 
+# Tugas 5: Desain Web menggunakan HTML, CSS dan Framework CSS
+## 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Urutan secara hirearki pada css selector adalah:
+1. inline style, yang langsung mempengaruhi ke style attribute HTML
+2. id selector
+3. Class, attribute, pseudo-class selector
+4. Tag/element selector
+5. Universal selector
+
+## 2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+Karena dengan menerapkan responsive design, aplikasi web yang kita kembangkan dapat diakses di berbagai platform ukuran bebeda dengan nyaman. Contoh aplikasi yang sudah menerapkan responsive design adalah youtube. Di youtube, tampilan akan berubah sesuai dengan gadget apa yang kita gunakan untuk mengakses youtube tersebut. Sedangkan, ada juga website yang belum menerapkan responsive design, misalnya, saya menemukan
+[website](https://dequeuniversity.com/library/responsive/1-non-responsive) ini sebagai contoh website yang tidak responsif. Apabila kita coba buka website dari laptop, dan juga dari handphone, kita dapat melihat dengan jelas bahwa tidak ada penyesuaian, sehingga website ini tidak menerapkan design yg responsive.
+
+## 3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin, border dan padding merupakan bagian dari layout CSS, dimana margin merupakan bagian terluar, dan tiap bagian akan wrap terus ke bagian dalam. Sebagai definisi:
+1. Margin merupakan ruang diluar yang memisahkan elemen dengan elemen lain. 
+2. Border merupakan garis atau frame terlihat yang membungkus elemen di padding.
+3. Padding merupakan ruang luar antara elemen dengan elemen lain, diantara border dan content.
+Kita bisa mengimplementasikan ketiga elemen tersebut dengan taiilwind css, misal:
+```
+<div class="m-5 border-2 border-[#FDB913] p-4">
+```
+Disini kita memberikan jarak di luar elemen menggunakan margin, yaitu 5 spacing jarak dari elemen ke elemen lain. Lalu, disini kita membuat garis pinggir dan mengubah warna dengan border, dimana border di set ke 2px, dan warna diatur ke warna hex #FDB913. Selanjutnya, disini kiita memberikan jarak di dalam elemen menggunakan padding sebanyak 4 spacing unit. 
+
+## 4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox dan grid layout merupakan CSS layut modules yang sering digunakan untuk membuat website responsif.
+1. Flexbox biasanya digunakan untuk layout 1 dimensi, dimana dapat menyusun item di satu arah, baik sebagai baris atau kolom, sehingga cocok untuk align item atau justify.
+2. CSS Grid layout biasanya digunakan untuk layout 2 dimensi, dimana dapat dapat menyusun item di dua arah (baris dan kolom secara bersamaan), sehingga cocok untuk grid elemen.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+Secara garis besar, berikut langkah-langkah saya dalam mengiimplementasikan aplikasi:
+1. memikirkan terlebih dahulu, design web akan seperti apa, lalu mendownload source statis, misal image yang akan dibutuhkan.
+2. menyambungkan django dengan tailwind di base.html dengan CDN
+3. menambahkan fungsi edit product & delete product di views.py
+4. melakukan routing fungsi-fungsi yang baru dibuat di urls.py
+5. menerapkan fungsi-fungsi tersebut di main.html
+6. membuat navigation bar dengan navbar.html di templates/
+7. melakukan konfigurasi pada pengaturan di settings.py
+8. membuat file global css di dir static, stylying global css, include source statis yang tadi didownload, lalu hubungkan ke tailwind
+9. melakukan styling sesuai konsep website untuk navbar, login, register, home, create news dan detail news
+10. membuat card untuk product, lalu tambahkan di main.html
+11. push ke gihub dan pws
+
+
+
+
+
+
+
+
+Nama: Muhammad Rifqi Ilham  
+NPM: 2406495483  
+Kelas: PBP-E  
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-4
 # Tugas 4: Implementasi Autentikasi, Session, dan Cookies pada Django
 ## 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
 Django AuthenticationForm merupakan fitur yang telah disediakan oleh django untuk form login pengguna, sehingga developer tidak perlu membuat login form dari nol. 
