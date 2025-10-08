@@ -73,4 +73,97 @@
     </article>
   </div>
 </div>
+
+<script>
+// Configuration
+const PRODUCT_ID = "{{ product.id }}";
+const PRODUCT_DETAIL_ENDPOINT = `{% url 'main:show_json_by_id' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', PRODUCT_ID);
+
+// DOM Elements
+const loadingState = document.getElementById('loading-state');
+const errorState = document.getElementById('error-state');
+const productContent = document.getElementById('product-content');
+const badgesContainer = document.getElementById('badges-container');
+const productName = document.getElementById('product-name');
+const productDate = document.getElementById('product-date');
+const productPrice = document.getElementById('product-price');
+const featuredImageContainer = document.getElementById('featured-image-container');
+const featuredImage = document.getElementById('featured-image');
+const productDescription = document.getElementById('product-description');
+const productSeller = document.getElementById('product-seller');
+
+// Show/hide page sections
+function showState(state) {
+  loadingState.classList.toggle('hidden', state !== 'loading');
+  errorState.classList.toggle('hidden', state !== 'error');
+  productContent.classList.toggle('hidden', state !== 'ready');
+}
+
+// Render product content
+function renderProduct(product) {
+  // Set name
+  productName.textContent = product.name;
+  document.title = `${product.name} - Camp Nou Sportswear`;
+
+  // Category badge
+  badgesContainer.innerHTML = '';
+  const categoryBadge = document.createElement('span');
+  categoryBadge.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-[#004D98] text-white';
+  categoryBadge.textContent = product.category || 'Uncategorized';
+  badgesContainer.appendChild(categoryBadge);
+
+  // Featured badge
+  if (product.is_featured) {
+    const featuredBadge = document.createElement('span');
+    featuredBadge.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-[#FDB913] text-black';
+    featuredBadge.textContent = 'Featured';
+    badgesContainer.appendChild(featuredBadge);
+  }
+
+  // Price & Date
+  const formattedDate = product.date_added
+    ? new Date(product.date_added).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      })
+    : 'Date not available';
+  productDate.textContent = formattedDate;
+  productPrice.textContent = `Rp ${Number(product.price).toLocaleString('id-ID')}`;
+
+  // Image
+  if (product.image_url) {
+    featuredImage.src = product.image_url;
+    featuredImage.alt = product.name;
+    featuredImageContainer.classList.remove('hidden');
+  } else {
+    featuredImageContainer.classList.add('hidden');
+  }
+
+  // Description
+  productDescription.textContent = product.description || 'No description provided.';
+
+  // Seller
+  const sellerName = product.user_username || 'Unknown';
+  productSeller.textContent = `Seller: ${sellerName}`;
+}
+
+// Fetch Product detail
+async function loadProductDetail() {
+  try {
+    showState('loading');
+    const response = await fetch(PRODUCT_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' } });
+    if (!response.ok) throw new Error('Failed to fetch product detail');
+    
+    const data = await response.json();
+    renderProduct(data);
+    showState('ready');
+  } catch (error) {
+    console.error('Error loading product detail:', error);
+    showState('error');
+  }
+}
+
+// Initialize Page
+loadProductDetail();
+</script>
+
 {% endblock content %}

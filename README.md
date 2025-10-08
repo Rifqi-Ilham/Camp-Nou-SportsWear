@@ -2,10 +2,29 @@
 Nama: Muhammad Rifqi Ilham  
 NPM: 2406495483  
 Kelas: PBP-E  
-Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-5
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-6
 Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
 
+# Tugas 6: Javascript dan AJAX
+## 1.  Apa perbedaan antara synchronous request dan asynchronous request?
+Perbedaannya adalah synchronous request menahan DOM atau browser untuk mengeksekusi suatu kode sampai server mengirim response, sedangkan asynchronous request tidak memperhatikan hal tersebut, sehingga DOM atau browser langsung mengeksekusi kode.
+
+## 2.  Bagaimana AJAX bekerja di Django (alur request–response)?
+Saat user mengirim request, misal submit sebuah data, maka akan ada sebuah XMLHttpRequest atau fetch yang dibuat oleh Javascript. Lalu, objek XMLHttpRequest atau fetch mengirimkan request ke server, dan server akan memproses request tersebut. Nantinya, server akan mengembalikan kembali response kepada web dan dibaca oleh javascript. Dan akhirnya, DOM melakukan dynamic rendering untuk mengubah sebagian tampilan di browser.
+
+## 3. Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+Dengan menggunakan AJAX, kita dapat melakukan partial update pada halaman web, dimana halaman tidak perlu di reload sepenuhnya. Karena proses ini juga, dimana AJAX hanya melakukan fetching dan mengupdate sebagian halaman, proses interaksi akan menjadi lebih cepat.
+
+## 4. Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+Memastikan keamanan di fitur login dan register django menggunakan ajax dilakukan dengan melindungi website dari Cross Site Scripting (XSS), dimana developer menambahkan strip tags pada entry yang akan dimasukan oleh pengguna. Sehingga data yang disimpan dalam database adalah data yang sudah "bersih"
+
+## 5. Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+AJAX dapat membuat pengalaman pengguna menjadi lebih interaktif, cepat dan seamless dengan mengeliminasi keperluan untuk melakukan reload page saat mengupdate sebagian halaman. Sehingga, penggunaan website bisa menjadi lebih nyaman.
+
+
 # Tugas 5: Desain Web menggunakan HTML, CSS dan Framework CSS
+Link penugasan: https://pbp-fasilkom-ui.github.io/ganjil-2026/assignments/individual/assignment-5
+Link Deployment: https://muhammad-rifqi411-campnousportswear.pbp.cs.ui.ac.id/
 ## 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
 Urutan secara hirearki pada css selector adalah:
 1. inline style, yang langsung mempengaruhi ke style attribute HTML

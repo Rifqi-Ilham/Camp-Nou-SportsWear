@@ -5,13 +5,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block meta %} {% endblock meta %}
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
 </head>
 
 <body>
     {% block content %} {% endblock content %}
+    {% include 'toast.html' %}
+    {% include 'modal.html' %}
+
+    <div id="toast"
+         class="fixed bottom-5 right-5 hidden px-4 py-3 rounded-lg shadow-lg text-white font-medium z-50"></div>
+
+    <script>
+      function showToast(message, subtitle = '', type = 'info') {
+        const toast = document.getElementById('toast');
+        const colors = {
+          success: 'bg-green-600',
+          error: 'bg-red-600',
+          info: 'bg-blue-600'
+        };
+        toast.className = `fixed bottom-5 right-5 px-5 py-3 rounded-lg text-white font-semibold shadow-lg ${colors[type]}`;
+        toast.innerHTML = `<p>${message}</p><p class="text-sm opacity-90">${subtitle}</p>`;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+      }
+    </script>
 </body>
 </html>
 

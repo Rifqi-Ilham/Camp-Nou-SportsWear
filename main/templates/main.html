@@ -8,75 +8,300 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<!-- Hero Section -->
 <div class="relative w-full h-screen flex items-center justify-center text-center text-white">
   <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{% static "image/stadium.jpg" %}');"></div>
   <div class="absolute inset-0 bg-black opacity-60"></div>
   <div class="relative z-10 px-6">
     <small class="block mb-2">DIBUAT OLEH: {{ nama }} | NPM: {{ npm }}</small>
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
-      Welcome to {{ nama_aplikasi }}
-    </h1>
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Welcome to {{ nama_aplikasi }}</h1>
     <p class="text-lg md:text-xl mb-6">
-      Temukan perlengkapan olahraga terbaik khusus untuk<br> penggemar Barcelona! <span class="font-semibold text-[#FDB913]">#VivaBarca</span>
+      Temukan perlengkapan olahraga terbaik khusus untuk<br>
+      penggemar Barcelona! <span class="font-semibold text-[#FDB913]">#VivaBarca</span>
     </p>
-    <a href="#produk" class="inline-block bg-[#A50044] hover:bg-[#004D98] text-white px-6 py-3 rounded-lg font-semibold transition">
+    <a href="#produk" id="scrollBtn" class="inline-block bg-[#A50044] hover:bg-[#004D98] text-white px-6 py-3 rounded-lg font-semibold transition">
       Belanja Sekarang
     </a>
   </div>
 </div>
 
-<div class="bg-gray-50 w-full min-h-screen pt-16">
+<!-- Tombol Refresh -->
+  <button id="refreshButton"
+          onclick="fetchProductsFromServer()"
+          class="bg-[#004D98] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#A50044] transition">
+    Refresh List
+  </button>
+</div>
+
+<!-- State Containers -->
+<div id="loading" class="text-center py-12 hidden">
+  <div class="animate-spin h-8 w-8 border-4 border-[#FDB913] border-t-transparent rounded-full mx-auto"></div>
+  <p class="text-gray-600 mt-3">Loading products...</p>
+</div>
+
+<div id="error" class="text-center py-12 hidden">
+  <p class="text-red-600 font-semibold">⚠️ Failed to load products. Please try again.</p>
+</div>
+
+<div id="empty" class="text-center py-12 hidden">
+  <p class="text-gray-500">No products available yet. Be the first to add one!</p>
+</div>
+
+<!-- Product Grid -->
+<div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+
+<div class="flex justify-center sm:justify-start mb-6">
+      <button onclick="showModal()" 
+              class="inline-flex items-center px-4 py-2 bg-white text-[#A50044] font-semibold border-2 border-[#A50044] rounded-md hover:bg-[#A50044] hover:text-white transition-colors">
+        + Add Product (AJAX)
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Product Section -->
+<div class="bg-gray-50 w-full min-h-screen pt-16" id="produk">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Filter Section -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border-2 border-[#FDB913] p-4 shadow-sm">
-      <!-- Tombol Filter -->
       <div class="flex space-x-3 mb-4 sm:mb-0">
-        <a href="?" 
-           class="{% if request.GET.filter == 'all' or not request.GET.filter %} bg-[#A50044] text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} 
-                  px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white">
+        <a id="filter-all" 
+           class="bg-[#A50044] text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white cursor-pointer">
           All Product
         </a>
-        <a href="?filter=my" 
-           class="{% if request.GET.filter == 'my' %} bg-[#A50044] text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} 
-                  px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white">
+        <a id="filter-my"
+           class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white cursor-pointer">
           My Product
         </a>
       </div>
 
-      <!-- Last Login Info -->
       {% if user.is_authenticated %}
-        <div class="text-sm text-gray-600">
-          <span class="font-medium text-[#004D98]">Last login:</span> {{ last_login }}
-        </div>
+      <div class="text-sm text-gray-600">
+        <span class="font-medium text-[#004D98]">Last login:</span> {{ last_login }}
+      </div>
       {% endif %}
     </div>
 
-    <!-- Product Grid -->
-    {% if not product_list %}
-      <div class="bg-gray-900 rounded-lg border-2 border-[#FDB913] p-12 text-center text-white">
-        <div class="w-32 h-32 mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full object-contain">
-            <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>
-            <path d="M12 15h.01"/>
-            <path d="M12 7v4"/>
-          </svg>
-        </div>
-        <h3 class="text-lg font-medium mb-2">No product found</h3>
-        <p class="text-gray-300 mb-6">Be the first to add a product to {{ nama_aplikasi }}.</p>
-        <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-[#FDB913] text-black rounded-md hover:bg-[#A50044] hover:text-white transition">
-          + Add Product
-        </a>
+    <!-- Loading State -->
+    <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <svg class="animate-spin h-8 w-8 text-[#004D98] inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+      <p class="text-gray-600 mt-3">Loading products...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="hidden bg-red-100 text-red-700 p-4 rounded-lg border border-red-300 text-center">
+      <p>Terjadi kesalahan saat memuat produk. Silakan coba lagi.</p>
+    </div>
+
+    <!-- Product Grid (Dynamic AJAX content here) -->
+    <div id="grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <!-- Empty State -->
+    <div id="empty" class="bg-gray-900 rounded-lg border-2 border-[#FDB913] p-12 text-center text-white hidden">
+      <div class="w-32 h-32 mx-auto mb-4">
+        <img src="{% static 'image/no-product.png' %}" alt="No product available" class="w-full h-full object-contain">
       </div>
-    {% else %}
-      <div id="produk" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for product in product_list %}
-          {% include 'card_product.html' with product=product %}
-        {% endfor %}
-      </div>
-    {% endif %}
+      <h3 class="text-lg font-medium mb-2">Produk tidak ditemukan</h3>
+      <p class="text-gray-300 mb-6">Jadilah orang pertama yang menambahkan produk ke {{ nama_aplikasi }}.</p>
+      <button id="create-btn" class="inline-flex items-center px-4 py-2 bg-[#FDB913] text-black rounded-md hover:bg-[#A50044] hover:text-white transition">
+        + Add Product
+      </button>
+    </div>
+
   </div>
 </div>
+
+<script>
+//  Configuration 
+const PRODUCT_API_ENDPOINT = "{% url 'main:show_json' %}";
+const CURRENT_USER_ID = "{{ user.id|default_if_none:'' }}";
+
+//  DOM Elements 
+const loadingSpinner = document.getElementById('loading');
+const errorMessage = document.getElementById('error');
+const emptyStateDisplay = document.getElementById('empty');
+const productGridContainer = document.getElementById('grid');
+const showAllProductsButton = document.getElementById('filter-all');
+const showMyProductsButton = document.getElementById('filter-my');
+
+// State Variables
+let activeFilter = 'all';
+let allProductData = [];
+
+// Update filter button appereance
+function updateFilterButtonsAppearance() {
+  if (!showAllProductsButton || !showMyProductsButton) return;
+
+  if (activeFilter === 'all') {
+    showAllProductsButton.className = 'bg-[#A50044] text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98]';
+    showMyProductsButton.className = 'bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white';
+  } else {
+    showMyProductsButton.className = 'bg-[#A50044] text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98]';
+    showAllProductsButton.className = 'bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#004D98] hover:text-white';
+  }
+}
+
+// Show/hide page sections
+function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
+  loadingSpinner.classList.toggle('hidden', !showLoading);
+  errorMessage.classList.toggle('hidden', !showError);
+  emptyStateDisplay.classList.toggle('hidden', !showEmpty);
+  productGridContainer.classList.toggle('hidden', !showGrid);
+  
+  // Add grid classes when showing grid
+  if (showGrid) {
+    productGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+  }
+}
+
+// Create product card element
+function buildProductCardElement(product) {
+  const card = document.createElement('article');
+  card.className = 'bg-white rounded-lg border-2 border-[#FDB913] hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full';
+
+  // Build URLs
+  const linkDetail = `{% url 'main:show_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', product.id);
+  const linkEdit = `{% url 'main:edit_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', product.id);
+  const linkDelete = `{% url 'main:delete_product' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', product.id);
+
+  // Sanitize values
+  const name = DOMPurify.sanitize(product.name);
+  const description = DOMPurify.sanitize(product.description);
+  const category = DOMPurify.sanitize(product.category);
+  const price = DOMPurify.sanitize(product.price);
+  const stock = DOMPurify.sanitize(product.stock);
+  const thumbnail = DOMPurify.sanitize(product.thumbnail);
+  const date_added = DOMPurify.sanitize(
+    new Date(product.date_added).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric'
+    })
+  );
+  const isFeatured = product.is_featured;
+
+  // thumbnail
+  const thumbnailHtml = thumbnail
+    ? `<img src="${thumbnail}" alt="${name}" class="w-full h-full object-cover">`
+    : `<div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-gray-400">No Image</div>`;
+
+  // Badges
+  const categoryLabel = DOMPurify.sanitize(category);
+  const featuredLabel = isFeatured
+    ? `<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">Featured</span>`
+    : '';
+
+  // Edit/delete only for owner
+  const editDeleteHtml =
+    CURRENT_USER_ID && Number(CURRENT_USER_ID) === Number(product.user_id)
+      ? `<div class='flex space-x-2'>
+          <a href='${linkEdit}' class='text-gray-600 hover:text-gray-800 text-sm transition-colors'>Edit</a>
+          <a href="#" onclick="showDeleteModal('${product.id}')" class="text-red-600 hover:text-red-700 text-sm transition-colors"Delete</a>
+         </div>`
+      : '';
+
+  // Card content
+  const cardHtml = `
+    <div class="aspect-[16/9] relative overflow-hidden">
+      ${thumbnailHtml}
+      <div class="absolute top-3 left-3">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#004D98] text-white">${categoryLabel}</span>
+      </div>
+      <div class="absolute top-3 right-3">
+        ${featuredLabel}
+      </div>
+    </div>
+
+    <div class="p-5 flex flex-col flex-1">
+      <div class="flex items-center text-sm text-gray-500 mb-3">
+        <time>${date_added}</time>
+        <span class="mx-2">•</span>
+        <span>Stock: ${stock}</span>
+      </div>
+
+      <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
+        <a href="${linkDetail}" class="hover:text-[#A50044] transition-colors">${name}</a>
+      </h3>
+
+      <p class="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4">${description}</p>
+
+      <div class="mt-auto pt-4 border-t border-gray-200 flex items-center justify-between">
+        <p class="text-[#004D98] font-semibold text-sm">Rp ${price}</p>
+        ${editDeleteHtml}
+      </div>
+    </div>
+  `;
+
+  card.innerHTML = cardHtml;
+  return card;
+}
+
+
+// Render all new cards
+function renderAllProducts(products) {
+  productGridContainer.innerHTML = '';
+  products.forEach(product => {
+    const card = buildProductCardElement(product);
+    productGridContainer.appendChild(card);
+  });
+}
+
+// Filter and display product
+function filterAndDisplayProducts() {
+  updateFilterButtonsAppearance();
+
+  const filtered = activeFilter === 'all'
+    ? allProductData
+    : allProductData.filter(p => Number(p.user_id) === Number(CURRENT_USER_ID));
+
+  if (filtered.length === 0) {
+    displayPageSection({ showEmpty: true });
+  } else {
+    renderAllProducts(filtered);
+    displayPageSection({ showGrid: true });
+  }
+}
+
+// Fetch news data from server
+async function fetchProductsFromServer() {
+  try {
+    displayPageSection({ showLoading: true });
+
+    const response = await fetch(PRODUCT_API_ENDPOINT, { headers: { 'Accept': 'application/json' } });
+
+    if (!response.ok) throw new Error('Gagal memuat data produk');
+
+    const data = await response.json();
+    allProductData = data || [];
+    filterAndDisplayProducts();
+  } catch (err) {
+    console.error('Error:', err);
+    displayPageSection({ showError: true });
+  }
+}
+
+// Event handlers
+showAllProductsButton.addEventListener('click', () => {
+  activeFilter = 'all';
+  filterAndDisplayProducts();
+});
+
+showMyProductsButton.addEventListener('click', () => {
+  activeFilter = 'my';
+  filterAndDisplayProducts();
+});
+
+// Initialize page
+fetchProductsFromServer();
+
+document.addEventListener('productAdded', function() {
+    // Refresh data without page reload
+    fetchNewsFromServer();
+});
+</script>
 
 {% endblock content %}
