@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -224,3 +225,59 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+@csrf_exempt
+def create_product_flutter(request):
+    print("==== PRODUCT FLUTTER HIT ====")
+    print("METHOD:", request.method)
+    print("BODY RAW:", request.body)
+    print("USER:", request.user)
+    print("AUTH:", request.user.is_authenticated)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            name = strip_tags(data.get("name", ""))
+            price = data.get("price", 0)
+            description = strip_tags(data.get("description", ""))
+            category = strip_tags(data.get("category", ""))
+            stock = data.get("stock", 0)
+            thumbnail = strip_tags(data.get("thumbnail", ""))
+            is_featured = data.get("is_featured", False)
+
+            user = request.user if request.user.is_authenticated else None
+
+            new_product = Product(
+                name=name,
+                price=price,
+                description=description,
+                category=category,
+                stock=stock,
+                thumbnail=thumbnail,
+                is_featured=is_featured,
+                user=user
+            )
+            new_product.save()
+
+            return JsonResponse({
+                "status": "success",
+                "message": "Product created successfully!",
+                "product": {
+                    "id": str(new_product.id),
+                    "name": new_product.name,
+                    "price": new_product.price,
+                    "description": new_product.description,
+                    "category": new_product.category,
+                    "stock": new_product.stock,
+                    "thumbnail": new_product.thumbnail,
+                    "is_featured": new_product.is_featured,
+                    "user": new_product.user.username if new_product.user else "Anonymous"
+                }
+            }, status=200)
+
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            }, status=400)
+
+    return JsonResponse({"status": "error", "message": "Invalid method"}, status=405)
